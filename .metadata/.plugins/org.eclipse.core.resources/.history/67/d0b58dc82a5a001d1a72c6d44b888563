@@ -1,0 +1,68 @@
+package com.advjava.servelets;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.advjava.factory.JdbcFactory;
+
+/**
+ * Servlet implementation class Login
+ */
+@WebServlet("/Login")
+public class Login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private Connection conn = null;
+
+	@Override
+	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		conn = JdbcFactory.getMyConnection();
+		String userId = req.getParameter("userId");
+		String password = req.getParameter("password");
+		String sql = "select * from `std_table` where userId='" + userId + "' and " + " stdPass='" + password + "'";
+		if (conn != null) {
+			System.out.println("DB connection success.");
+		} else {
+			System.out.println("DB connection failed.");
+		}
+		ResultSet result = null;
+		try {
+			Statement stmt = conn.createStatement();
+			result = stmt.executeQuery(sql);
+			String baseUrl="";
+			String redirectUrl = "/welcome";
+			String originalUrl = req.getRequestURL().toString();
+			System.out.println(originalUrl);
+			baseUrl =baseUrl+originalUrl.substring(0, originalUrl.length() - req.getRequestURI().length())
+			+ req.getContextPath();
+			System.out.println(baseUrl);
+			boolean isUserFound = false;
+			String user = result.getString(2);
+			while (result.next() == true) {
+				if (result != null && user.equals(userId)) {
+					isUserFound = true;
+				}
+			}
+			
+			if(isUserFound) {
+				resp.sendRedirect(baseUrl + "/home");
+			}else {
+				resp.sendRedirect(baseUrl + redirectUrl);
+			}
+
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

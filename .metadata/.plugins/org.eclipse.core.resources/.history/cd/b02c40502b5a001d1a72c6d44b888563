@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Welcome Page</title>
+</head>
+<body><div align="center">
+	<form action="login" method="post"  >
+		<table>
+			<tr>
+				<td>User Id ggggggggg: </td>
+				<td><input type="text" name="userId" /></td>
+			</tr>
+			<tr>
+				<td>Password : </td>
+				<td><input type="password" name="password" /></td>
+			</tr>
+		</table>
+		<br>
+		<div align="center"><input type="submit" value="submit" /></div>
+	</form>
+	</div>
+</body>
+</html>

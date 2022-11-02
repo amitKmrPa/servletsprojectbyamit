@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Home Page</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+	
+</script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+	
+</script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js">
+	
+</script>
+<link
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+	rel="stylesheet">
+<style>
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body {
+	padding-top: 4.5rem;
+	margin-bottom: 4.5rem;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 3.5rem;
+	line-height: 3.5rem;
+	background-color: #ccc;
+}
+
+.bg-dark {
+	background-color: #6a9aca !important;
+}
+
+.nav-link:hover {
+	transition: all 0.4s;
+}
+
+.nav-link-collapse:after {
+	float: right;
+	content: '\f067';
+	font-family: 'FontAwesome';
+}
+
+.nav-link-show:after {
+	float: right;
+	content: '\f068';
+	font-family: 'FontAwesome';
+}
+
+.nav-item ul.nav-second-level {
+	padding-left: 0;
+}
+
+.nav-item ul.nav-second-level>.nav-item {
+	padding-left: 20px;
+}
+
+@media ( min-width : 992px) {
+	.sidenav {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 230px;
+		height: calc(100vh - 3.5rem);
+		margin-top: 3.5rem;
+		background: #343a40;
+		box-sizing: border-box;
+		border-top: 1px solid rgba(0, 0, 0, 0.3);
+	}
+	.navbar-expand-lg .sidenav {
+		flex-direction: column;
+	}
+	.content-wrapper {
+		margin-left: 230px;
+	}
+	.footer {
+		width: calc(100% - 230px);
+		margin-left: 230px;
+	}
+}
+
+#add {
+	display: block;
+}
+
+#del {
+	display: none;
+}
+
+#upd {
+	display: none;
+}
+
+#view {
+	display: none;
+}
+</style>
+<script type="text/javascript">
+	function add() {
+		document.getElementById("add").style.display = "block";
+		document.getElementById("del").style.display = "none";
+		document.getElementById("upd").style.display = "none";
+		document.getElementById("view").style.display = "none";
+	}
+	function del() {
+		document.getElementById("del").style.display = "block";
+		document.getElementById("add").style.display = "none";
+		document.getElementById("upd").style.display = "none";
+		document.getElementById("view").style.display = "none";
+
+	}
+	function upd() {
+		document.getElementById("upd").style.display = "block";
+		document.getElementById("add").style.display = "none";
+		document.getElementById("del").style.display = "none";
+		document.getElementById("view").style.display = "none";
+	}
+	function view() {
+		var data;
+		$.ajax({
+			url : 'http://localhost:8080/AdvanceJavaProject/user',
+			type : 'GET',
+            contentType: "application/json; charset=utf-8",
+			async : false,
+		}).done(function(res) {
+		data = res.data;
+			alert(data);
+		}).fail(function(err) {
+			console.log('Error: ' + err.status);
+		});
+
+		document.getElementById("myText").innerHTML = data;
+		document.getElementById("view").style.display = "block";
+		document.getElementById("add").style.display = "none";
+		document.getElementById("upd").style.display = "none";
+		document.getElementById("del").style.display = "none";
+
+	}
+</script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+		<h3 class="navbar-brand" style="margin-left: 601px;">Welcome to
+			BJS</h3>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarCollapse" aria-controls="navbarCollapse"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"> </span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarCollapse">
+			<ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+				<li class="nav-item active"><lable class="nav-link"
+						onclick="add();"> Add </lable></li>
+				<li class="nav-item"><a class="nav-link" onclick="del()">
+						Delete </a></li>
+
+				<li class="nav-item"><a class="nav-link" onclick="upd();">
+						Update </a></li>
+
+				<li class="nav-item"><a class="nav-link" onclick="view()">
+						Display </a></li>
+
+
+			</ul>
+			<!--     <form class="form-inline ml-auto mt-2 mt-md-0">  
+      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">  
+      <button class="btn  my-2 my-sm-0" type="submit">Search</button>  
+    </form>  -->
+		</div>
+	</nav>
+	<main class="content-wrapper">
+		<div class="container-fluid">
+
+			<div id="add" align="center">
+				<form action="addUser" method="post">
+								<h1 align="center">Add New Account</h1>
+				
+					<table>
+						<tr>
+							<td>Full Name:</td>
+							<td><input type="text" name="fullname" /></td>
+						</tr>
+						<tr>
+							<td>Age:</td>
+							<td><input type="number" name="age" /></td>
+						</tr>
+						<tr>
+							<td>User Id:</td>
+							<td><input type="text" name="userId" /></td>
+						</tr>
+						<tr>
+							<td>Password:</td>
+							<td><input type="password" name="password" /></td>
+						</tr>
+						
+					</table>
+					<br>
+													<div align="center"><input type="submit" value="Add" /></div>
+					
+				</form>
+			</div>
+			<div id="upd" align="center">
+				<form action="updUser" method="post">
+								<h1 align="center">Update Your Account</h1>
+				
+					<table>
+						<tr>
+							<td>Full Name:</td>
+							<td><input type="text" name="fullname" /></td>
+						</tr>
+						<tr>
+							<td>Age:</td>
+							<td><input type="number" name="age" /></td>
+						</tr>
+						<tr>
+							<td>User Id:</td>
+							<td><input type="text" name="userId" /></td>
+						</tr>
+						<tr>
+							<td>Password:</td>
+							<td><input type="password" name="password" /></td>
+						</tr>
+
+					</table>
+										<br>
+													<div align="center"><input type="submit" value="Update" /></div>
+					
+				</form>
+			</div>
+
+			<div id="del" align="center">
+				<form action="delUser" method="post">
+				<h1 align="center">Delete Your Account</h1>
+					<table>
+				
+						<tr>
+							<td>User Id:</td>
+							<td><input type="text" name="userId" /></td>
+						</tr>
+						<tr>
+							<td>Password:</td>
+							<td><input type="password" name="password" /></td>
+						</tr>
+
+					</table>
+										<br>
+													<div align="center"><input type="submit" value="Delete" /></div>
+					
+				</form>
+
+			</div>
+			<div id="view" align="center">
+							<h1 align="center">View Your Accounts</h1>
+				<table border="3 black solid">
+					<tr>
+						<td>Sl. no</td>
+						<td>Full Name</td>
+						<td>UserId</td>
+						<td>Age</td>
+					</tr>
+
+					<tr>
+						<td><span id="myText"></span></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</main>
+	<footer class="footer">
+		<div class="container">
+			<div class="text-center">
+				<h1>Bjs Address : - </h1>
+			</div>
+		</div>
+	</footer>
+	<script>
+		$(document).ready(function() {
+			$('.nav-link-collapse').on('click', function() {
+				$('.nav-link-collapse').not(this).removeClass('nav-link-show');
+				$(this).toggleClass('nav-link-show');
+			});
+		});
+	</script>
+</body>
+</html>
